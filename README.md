@@ -1,12 +1,12 @@
-# starter-npm-package
+# tailwind-plugin-theme-sync-element-plus
 
----
-
-> TODO: DESCRIPTION
+Tailwind CSS Plugin for Element Plus to sync Tailwind Theme.
 
 ## Install
 
-> TODO
+```sh
+npm i -D tailwind-plugin-theme-sync-element-plus
+```
 
 ## Usage
 
