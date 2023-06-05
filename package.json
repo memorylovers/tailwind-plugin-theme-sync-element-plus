@@ -53,6 +53,7 @@
     "coverage": "vitest run --coverage",
     "changelog": "pnpx changelogithub --dry",
     "prepare": "husky install",
+    "lint": "eslint src/*",
     "setup:git": "git config alias.ci '!pnpm git-cz' && git config alias.ci-a 'commit --amend'"
   },
   "devDependencies": {
@@ -182,5 +183,8 @@
   "lint-staged": {
     "*": "prettier --write",
     "*.{js,cjs,mjs,ts}": "eslint --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "tailwindcss": "^3.3.2"
   }
 }
