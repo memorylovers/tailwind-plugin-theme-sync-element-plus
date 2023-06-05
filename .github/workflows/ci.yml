@@ -1,0 +1,41 @@
+name: 10_ci
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "src/**"
+      - package.json
+      - tsconfig.json
+      - vite.config.ts
+      - vitest.config.ts
+  workflow_dispatch:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          registry-url: "https://registry.npmjs.org"
+          cache: "pnpm"
+
+      - run: pnpm install
+      - run: pnpm test
+      - run: pnpm build
+
+      # - name: publish
+      #   if: github.event.pull_request.merged == true && github.event.action == 'closed'
+      #   run: |
+      #     date=`date "+%Y%m%d%H%M%S"`
+      #     name=`npm pkg get name | jq -r`
+      #     version=`npm pkg get version | jq -r`
+      #     npm pkg set version="${version}-beta.${date}"
+      #     pkgSpec="${name}@${version}-beta.${date}"
+      #     npm publish --no-git-checks --tag beta
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

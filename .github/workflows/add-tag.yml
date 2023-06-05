@@ -1,0 +1,35 @@
+name: 12_add-tag
+on:
+  pull_request:
+    branches: [main]
+    types: [closed]
+  workflow_dispatch:
+
+env:
+  GH_USER_EMAIL: 41898282+github-acitons[bot]@users.noreply.github.com
+  GH_USER_NAME: github-acitons[bot]
+
+jobs:
+  add-tag:
+    if: (github.event.pull_request.merged && startsWith(github.head_ref, 'release/')) || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: setup git config
+        run: |
+          git config --global user.name ${{ env.GH_USER_NAME }}
+          git config --global user.email ${{ env.GH_USER_EMAIL }}
+
+      - name: add tag
+        run: |
+          version=`npm pkg get version | jq -r`
+          tag_prefix=`npm config get tag-version-prefix`
+          tag_name="${tag_prefix}${version}"
+          git tag -a ${tag_name} -m "RELEASE ${tag_name}"
+          git push -u origin ${tag_name}

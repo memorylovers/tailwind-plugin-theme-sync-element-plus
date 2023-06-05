@@ -1,0 +1,11 @@
+**/.git
+**/dist
+**/node_modules
+**/pnpm-lock.yaml
+**/.*ignore
+**/.husky/
+**/coverage
+**/.node-version
+**/.editorconfig
+**/LICENSE
+**/.npmrc

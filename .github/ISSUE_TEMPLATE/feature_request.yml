@@ -1,0 +1,40 @@
+name: "🚀 New feature proposal"
+description: Suggest an idea that will improve this project
+labels:
+  - feature-request
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to fill out this feature request!
+
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: What problem does this feature solve?
+      description: |
+        Explain your use case, context, and rationale behind this feature request.
+      placeholder: Problem description
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed solution
+      description: |
+        A clear and concise description of what you want to happen with an feature proposal when applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternative
+    attributes:
+      label: Alternative
+      description: Clear and concise description of any alternative solutions or features you've considered.
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Any other context or screenshots about the feature request here.

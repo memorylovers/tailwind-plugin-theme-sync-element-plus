@@ -1,0 +1,23 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact",
+    "vue",
+    "html",
+    "json",
+    "jsonc",
+    "json5"
+  ],
+  "editor.formatOnSave": true,
+  "markdownlint.config": {},
+  "markdownlint.lintWorkspaceGlobs": ["**/*.{md,mkd,mdwn,mdown,markdown,markdn,mdtxt,mdtext,workbook}"],
+  "markdownlint.ignore": ["**/node_modules", "**/.git", "**/dist", "**/LICENSE"],
+  "prettier.resolveGlobalModules": false,
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-issue-config.json": "file:///Users/fujiuray/workspace_memoryloves/workspace_oss/001_products/utils-ts/.github/ISSUE_TEMPLATE/config.yml"
+  },
+  "testing.automaticallyOpenPeekView": "never"
+}

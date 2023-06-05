@@ -1,0 +1,63 @@
+labels:
+  # Issue Forms
+  - name: bug-report
+    color: "f7b2c0"
+    description:
+
+  - name: feature-request
+    color: "93ea70"
+    description:
+
+  - name: question
+    color: "d876e3"
+    description: question or help
+
+  # PR
+  - name: enhancement
+    color: "a2eeef"
+    description: New feature or help wanted
+
+  - name: bug
+    color: "d73a4a"
+    description: Something isn't working
+
+  - name: chore
+    color: "D0F1A9"
+    description:
+
+  - name: refactor
+    color: "173A12"
+    description:
+
+  - name: documentation
+    color: "0075ca"
+    description: Improvements or additions to documentation
+
+  - name: dependencies
+    color: "0075ca"
+    description:
+
+  - name: breaking-change
+    color: "D746A6"
+    description:
+
+  - name: performance
+    color: "E84B77"
+    description:
+
+  # others
+  - name: invalid
+    color: "e4e669"
+    description: This doesn't seem right
+
+  - name: duplicate
+    color: "cfd3d7"
+    description: This issue or pull request already exists
+
+  - name: wontfix
+    color: "ffffff"
+    description: This will not be worked on
+
+  - name: ignore-for-release
+    color: "eeeeee"
+    description:

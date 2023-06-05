@@ -1,0 +1,60 @@
+name: 01_prepare-release
+on:
+  workflow_dispatch:
+
+env:
+  GH_USER_EMAIL: 41898282+github-acitons[bot]@users.noreply.github.com
+  GH_USER_NAME: github-acitons[bot]
+
+jobs:
+  prepare-release:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "${{ toJson(github) }}"
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          registry-url: "https://registry.npmjs.org"
+          cache: "pnpm"
+
+      - name: setup git config
+        run: |
+          git config --global user.name ${{ env.GH_USER_NAME }}
+          git config --global user.email ${{ env.GH_USER_EMAIL }}
+
+      - name: create release branche
+        run: |
+          tag_prefix=`npm config get tag-version-prefix`
+
+          old_version=`npm pkg get version | jq -r`
+          old_tag_name="${tag_prefix}${old_version}"
+
+          pnpx changelogen --bump --no-output
+          new_version=`npm pkg get version | jq -r`
+          new_tag_name="${tag_prefix}${new_version}"
+
+          git checkout -- .
+
+          branche_name="release/${new_version}"
+          git checkout -b "${branche_name}"
+          pnpx changelogen --release --no-output --no-tag
+          git push origin HEAD
+
+          echo "OLD_TAG=${old_tag_name}" >> $GITHUB_ENV
+          echo "NEW_TAG=${new_tag_name}" >> $GITHUB_ENV
+          echo "OLD_TAG=${old_tag_name}"
+          echo "NEW_TAG=${new_tag_name}"
+
+      - name: create release pr
+        run: |
+          pnpx changelogen --no-commit --no-tag --output -to ${{ env.NEW_TAG }}
+          gh pr create -t "RELAESE ${{ env.NEW_TAG }}" -F CHANGELOG.md -r "memory-lovers"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,178 @@
+{
+  "name": "starter-npm-package",
+  "version": "0.0.1",
+  "description": "commitlint rule plugin to check include issues",
+  "author": "Memory Lovers, LLC<https://github.com/memorylovers>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/memory-lovers",
+  "homepage": "https://github.com/memorylovers/starter-npm-package",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/memorylovers/starter-npm-package.git"
+  },
+  "bugs": {
+    "url": "https://github.com/memorylovers/starter-npm-package/issues"
+  },
+  "keywords": [],
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8",
+    "npm": "use pnpm please!",
+    "yarn": "use pnpm please!"
+  },
+  "packageManager": "pnpm@8.3.1",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "pnpm build:ts && pnpm build:dts",
+    "build:ts": "tsc --noEmit && vite build",
+    "build:dts": "tsc --emitDeclarationOnly",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "changelog": "pnpx changelogithub --dry",
+    "prepare": "husky install",
+    "setup:git": "git config alias.ci '!pnpm git-cz' && git config alias.ci-a 'commit --amend'"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.5",
+    "@commitlint/config-conventional": "^17.6.5",
+    "@commitlint/types": "^17.4.4",
+    "@typescript-eslint/eslint-plugin": "^5.59.8",
+    "@typescript-eslint/parser": "^5.59.8",
+    "commitizen": "^4.3.0",
+    "commitlint-plugin-empty-issues-rule": "latest",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^8.8.0",
+    "git-cz": "^4.9.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8",
+    "prettier-plugin-md-nocjsp": "^1.5.1",
+    "typescript": "^5.1.3",
+    "vite": "^4.3.9",
+    "vitest": "^0.31.4"
+  },
+  "config": {
+    "commitizen": {
+      "path": "git-cz",
+      "changelog": {
+        "format": "{type}{scope}: {emoji}{subject}",
+        "questions": [
+          "type",
+          "scope",
+          "subject"
+        ],
+        "types": {
+          "feat": {
+            "description": "Enhancements",
+            "emoji": "🚀",
+            "value": "feat"
+          },
+          "perf": {
+            "description": "🔥",
+            "emoji": "🔥",
+            "value": "perf"
+          },
+          "fix": {
+            "description": "Fixes",
+            "emoji": "🩹",
+            "value": "fix"
+          },
+          "refactor": {
+            "description": "Refactors",
+            "emoji": "💅",
+            "value": "refactor"
+          },
+          "docs": {
+            "description": "Documentation",
+            "emoji": "📖",
+            "value": "docs"
+          },
+          "build": {
+            "description": "Build",
+            "emoji": "📦",
+            "value": "build"
+          },
+          "types": {
+            "description": "Types",
+            "emoji": "🌊",
+            "value": "types"
+          },
+          "chore": {
+            "description": "Chore",
+            "emoji": "🏡",
+            "value": "chore"
+          },
+          "examples": {
+            "description": "Examples",
+            "emoji": "🏀",
+            "value": "examples"
+          },
+          "test": {
+            "description": "Tests",
+            "emoji": "✅",
+            "value": "test"
+          },
+          "style": {
+            "description": "Styles",
+            "emoji": "🎨",
+            "value": "style"
+          },
+          "ci": {
+            "description": "CI",
+            "emoji": "🤖",
+            "value": "ci"
+          }
+        }
+      }
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier"
+    ],
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "ignorePatterns": [
+      "**/*.test.ts",
+      "dist"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "plugins": [
+      "commitlint-plugin-empty-issues-rule"
+    ],
+    "rules": {
+      "empty-issues": [
+        1,
+        "always"
+      ]
+    }
+  },
+  "lint-staged": {
+    "*": "prettier --write",
+    "*.{js,cjs,mjs,ts}": "eslint --ignore-path .gitignore"
+  }
+}

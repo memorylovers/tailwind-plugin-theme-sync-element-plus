@@ -1,0 +1,15 @@
+name: "✨ Question"
+description: question or help
+labels:
+  - question
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time!
+
+  - type: textarea
+    attributes:
+      label: Description
+    validations:
+      required: true

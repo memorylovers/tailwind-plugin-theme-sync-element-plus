@@ -1,0 +1,31 @@
+name: 11_create-pr
+on:
+  push:
+    branches-ignore: [main, "releases/**"]
+    tags-ignore: ["*"]
+  workflow_dispatch:
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  BASE_BRANCH: main
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      # - run: echo "${{ toJson(github) }}"
+      - run: |
+          target_brach="${{ github.ref_name }}"
+          pr_title=`echo ${target_brach} | tr "_" " " | sed "s/ /: /"`
+          echo "TARGET_BRANCH=${target_brach}" >> $GITHUB_ENV
+          echo "PR_TITLE=${pr_title}" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v3
+
+      - id: check_pr
+        run: |
+          echo "count=$(gh pr list -B ${{ env.BASE_BRANCH }} -H ${{ env.TARGET_BRANCH }} --json 'id' -q '.[] | length')" >> $GITHUB_OUTPUT
+
+      - if: ${{ steps.check_pr.outputs.count == '' }}
+        run: |
+          pusher="${{ github.event.pusher.name }}"
+          gh pr create -B ${{ env.BASE_BRANCH }} -t "${{ env.PR_TITLE }}" -b "" -r "memory-lovers" -a "${pusher}"
