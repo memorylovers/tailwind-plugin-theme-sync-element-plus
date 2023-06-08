@@ -1,6 +1,7 @@
 import defaultColors from "tailwindcss/colors";
 import defaultTheme from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
+import { PluginCreator, Config as TwConfig } from "tailwindcss/types/config";
 import {
   getBgColors,
   getBorderColors,
@@ -14,11 +15,24 @@ import {
 } from "./handlers";
 import { ColorConf, SimpleConf } from "./types";
 
+type PluginOption = {
+  debug: boolean;
+};
+
+const DEFAULT_PLUGIN_OPTION: PluginOption = {
+  debug: false,
+};
+
+type PluginCreatorWithOptions = (options: PluginOption) => PluginCreator;
+type PluginConfigWithOptions = (options: PluginOption) => Partial<TwConfig>;
+
 // ********************************************************
-// * MAIN
+// * Plugin Creator
 // ********************************************************
-const myPlugin = plugin(
-  function ({ addBase, theme }) {
+
+const pluginCreator: PluginCreatorWithOptions =
+  (options = DEFAULT_PLUGIN_OPTION) =>
+  ({ addBase, theme }) => {
     const colors = theme<ColorConf>("colors", {});
     const fontSizes = theme<SimpleConf>("fontSize", {});
     const zIndexes = theme<SimpleConf>("zIndex", {});
@@ -37,7 +51,7 @@ const myPlugin = plugin(
       ...getBoxShadows(boxShadows),
     };
 
-    console.log(`** vars: ${JSON.stringify(vars, null, 2)}`);
+    if (options.debug) console.log(`** vars: ${JSON.stringify(vars, null, 2)}`);
     addBase({
       ":root": vars,
       html: {
@@ -46,8 +60,13 @@ const myPlugin = plugin(
         "font-size": "var(--el-font-size-base)",
       },
     });
-  },
-  {
+  };
+
+// ********************************************************
+// * Plugin Config
+// ********************************************************
+const pluginConfig: PluginConfigWithOptions = () => {
+  return {
     theme: {
       extend: {
         colors: {
@@ -109,8 +128,12 @@ const myPlugin = plugin(
         },
       },
     },
-  }
-);
+  };
+};
+// ********************************************************
+// * MAIN
+// ********************************************************
+const myPlugin = plugin.withOptions<PluginOption>(pluginCreator, pluginConfig);
 
 export default myPlugin;
 export * from "./utils";
