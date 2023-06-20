@@ -1,6 +1,6 @@
 {
   "name": "tailwind-plugin-theme-sync-element-plus",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Tailwind CSS Plugin for Element Plus to sync Tailwind Theme",
   "author": "Memory Lovers, LLC<https://github.com/memorylovers>",
   "license": "MIT",
