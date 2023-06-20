@@ -23,17 +23,6 @@ const DEFAULT_PLUGIN_OPTION: PluginOption = {
 type PluginCreatorWithOptions = (options: PluginOption) => PluginCreator;
 type PluginConfigWithOptions = (options: PluginOption) => Partial<TwConfig>;
 
-type PluginOption = {
-  debug: boolean;
-};
-
-const DEFAULT_PLUGIN_OPTION: PluginOption = {
-  debug: false,
-};
-
-type PluginCreatorWithOptions = (options: PluginOption) => PluginCreator;
-type PluginConfigWithOptions = (options: PluginOption) => Partial<TwConfig>;
-
 // ********************************************************
 // * Plugin Creator
 // ********************************************************
