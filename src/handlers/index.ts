@@ -1,11 +1,11 @@
-import { ColorConf, SimpleConf } from "../types";
-import { convertElVars } from "./common";
+import { ColorConf, PluginOption, SimpleConf } from "../types";
+import { appendImportant, convertElVars } from "./common";
 
 // ********************************************************
 // * Colors
 // ********************************************************
 // for --el-color-primary etc
-export function getVariantColors(colors: ColorConf) {
+export function getVariantColors(colors: ColorConf, options: PluginOption) {
   const variants = ["primary", "success", "warning", "danger", "info"];
   const modifiers = Object.keys({
     DEFAULT: "500",
@@ -17,11 +17,11 @@ export function getVariantColors(colors: ColorConf) {
   });
 
   const varNameFunc = (v: string, m: string) => (m == "DEFAULT" ? `--el-color-${v}` : `--el-color-${v}-${m}`);
-  return convertElVars(colors, varNameFunc, variants, modifiers);
+  return convertElVars(colors, varNameFunc, variants, modifiers, options);
 }
 
 // for --el-text-color
-export function getTextColors(colors: ColorConf) {
+export function getTextColors(colors: ColorConf, options: PluginOption) {
   const variants = ["text"];
   const modifiers = Object.keys({
     DEFAULT: "600",
@@ -32,21 +32,21 @@ export function getTextColors(colors: ColorConf) {
     disabled: "300",
   });
   const varNameFunc = (v: string, m: string) => (m == "DEFAULT" ? `--el-${v}-color` : `--el-${v}-color-${m}`);
-  return convertElVars(colors, varNameFunc, variants, modifiers);
+  return convertElVars(colors, varNameFunc, variants, modifiers, options);
 }
 
 // for --el-bg-color
-export function getBgColors(colors: ColorConf) {
+export function getBgColors(colors: ColorConf, options: PluginOption) {
   const variants = ["bg"];
   const modifiers = Object.keys({
     DEFAULT: "600",
   });
   const varNameFunc = (v: string, m: string) => (m == "DEFAULT" ? `--el-${v}-color` : `--el-${v}-color-${m}`);
-  return convertElVars(colors, varNameFunc, variants, modifiers);
+  return convertElVars(colors, varNameFunc, variants, modifiers, options);
 }
 
 // for --el-overlay-color
-export function getOverlayColors(colors: ColorConf) {
+export function getOverlayColors(colors: ColorConf, options: PluginOption) {
   const variants = ["overlay"];
   const modifiers = Object.keys({
     DEFAULT: "",
@@ -54,25 +54,25 @@ export function getOverlayColors(colors: ColorConf) {
     lighter: "",
   });
   const varNameFunc = (v: string, m: string) => (m == "DEFAULT" ? `--el-${v}-color` : `--el-${v}-color-${m}`);
-  return convertElVars(colors, varNameFunc, variants, modifiers);
+  return convertElVars(colors, varNameFunc, variants, modifiers, options);
 }
 
 // for --el-mask-color
-export function getMaskColors(colors: ColorConf) {
+export function getMaskColors(colors: ColorConf, options: PluginOption) {
   const variants = ["mask"];
   const modifiers = Object.keys({
     DEFAULT: "",
     "extra-light": "",
   });
   const varNameFunc = (v: string, m: string) => (m == "DEFAULT" ? `--el-${v}-color` : `--el-${v}-color-${m}`);
-  return convertElVars(colors, varNameFunc, variants, modifiers);
+  return convertElVars(colors, varNameFunc, variants, modifiers, options);
 }
 
 // ********************************************************
 // * FontSize
 // ********************************************************
 // for --el-font-size
-export function getFontSizes(conf: SimpleConf) {
+export function getFontSizes(conf: SimpleConf, options: PluginOption) {
   const modifiers = Object.keys({
     "extra-large": "2xl",
     large: "xl",
@@ -88,7 +88,7 @@ export function getFontSizes(conf: SimpleConf) {
     const confVal = conf[modifier];
 
     if (!confVal) continue; // no value
-    elVars[varName] = `${confVal[0]} !important`;
+    elVars[varName] = appendImportant(`${confVal[0]}`, options);
   }
   return elVars;
 }
@@ -97,7 +97,7 @@ export function getFontSizes(conf: SimpleConf) {
 // * Z-index
 // ********************************************************
 // for --el-index
-export function getZIndexes(conf: SimpleConf) {
+export function getZIndexes(conf: SimpleConf, options: PluginOption) {
   const modifiers = Object.keys({
     DEFAULT: 1,
     top: 1000,
@@ -111,7 +111,7 @@ export function getZIndexes(conf: SimpleConf) {
 
     if (!confVal) continue; // no value
     if (confVal === `var(${varName})`) continue; // same val
-    elVars[varName] = `${confVal} !important`;
+    elVars[varName] = appendImportant(`${confVal}`, options);
   }
   return elVars;
 }
@@ -120,7 +120,7 @@ export function getZIndexes(conf: SimpleConf) {
 // * Border Color
 // ********************************************************
 // for --el-border-color
-export function getBorderColors(conf: SimpleConf) {
+export function getBorderColors(conf: SimpleConf, options: PluginOption) {
   const modifiers = Object.keys({
     DEFAULT: "#dcdfe6",
     light: "#e4e7ed",
@@ -137,7 +137,7 @@ export function getBorderColors(conf: SimpleConf) {
 
     if (!confVal) continue; // no value
     if (confVal === `var(${varName})`) continue; // same val
-    elVars[varName] = `${confVal} !important`;
+    elVars[varName] = appendImportant(`${confVal}`, options);
   }
   return elVars;
 }
@@ -146,7 +146,7 @@ export function getBorderColors(conf: SimpleConf) {
 // * Box Shadow
 // ********************************************************
 // for --el-box-shadow
-export function getBoxShadows(conf: SimpleConf) {
+export function getBoxShadows(conf: SimpleConf, options: PluginOption) {
   const modifiers = Object.keys({
     DEFAULT: "var(--el-box-shadow)",
     light: "var(--el-box-shadow-light)",
@@ -161,7 +161,7 @@ export function getBoxShadows(conf: SimpleConf) {
 
     if (!confVal) continue; // no value
     if (confVal == `var(${varName})`) continue; // same val
-    elVars[varName] = `${confVal} !important`;
+    elVars[varName] = appendImportant(`${confVal}`, options);
   }
   return elVars;
 }

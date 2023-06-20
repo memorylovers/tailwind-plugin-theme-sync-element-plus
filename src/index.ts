@@ -13,13 +13,10 @@ import {
   getVariantColors,
   getZIndexes,
 } from "./handlers";
-import { ColorConf, SimpleConf } from "./types";
-
-type PluginOption = {
-  debug: boolean;
-};
+import { ColorConf, PluginOption, SimpleConf } from "./types";
 
 const DEFAULT_PLUGIN_OPTION: PluginOption = {
+  important: false,
   debug: false,
 };
 
@@ -40,15 +37,15 @@ const pluginCreator: PluginCreatorWithOptions =
     const boxShadows = theme<SimpleConf>("boxShadow", {});
 
     const vars = {
-      ...getVariantColors(colors),
-      ...getTextColors(colors),
-      ...getBgColors(colors),
-      ...getOverlayColors(colors),
-      ...getMaskColors(colors),
-      ...getFontSizes(fontSizes),
-      ...getZIndexes(zIndexes),
-      ...getBorderColors(borderColors),
-      ...getBoxShadows(boxShadows),
+      ...getVariantColors(colors, options),
+      ...getTextColors(colors, options),
+      ...getBgColors(colors, options),
+      ...getOverlayColors(colors, options),
+      ...getMaskColors(colors, options),
+      ...getFontSizes(fontSizes, options),
+      ...getZIndexes(zIndexes, options),
+      ...getBorderColors(borderColors, options),
+      ...getBoxShadows(boxShadows, options),
     };
 
     if (options.debug) console.log(`** vars: ${JSON.stringify(vars, null, 2)}`);

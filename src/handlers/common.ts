@@ -1,4 +1,4 @@
-import { ColorConf } from "../types";
+import { ColorConf, PluginOption } from "../types";
 
 // ********************************************************
 // * Common
@@ -7,7 +7,8 @@ export const convertElVars = (
   colors: ColorConf,
   varNameFunc: (variant: string, modifier: string) => string,
   variants: string[],
-  modifiers: string[]
+  modifiers: string[],
+  options: PluginOption
 ) => {
   const elVars: Record<string, string> = {};
   for (const variant of variants) {
@@ -21,8 +22,13 @@ export const convertElVars = (
       // has color value
       if (!colorVal) continue;
 
-      elVars[varName] = `${colorVal} !important`;
+      elVars[varName] = appendImportant(`${colorVal}`, options);
     }
   }
   return elVars;
+};
+
+export const appendImportant = (str: string, option: PluginOption) => {
+  if (option.important) return `${str} !important`;
+  else return str;
 };
